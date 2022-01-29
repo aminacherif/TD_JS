@@ -123,3 +123,37 @@ const dom = {
 
 
 dom.afficher();
+
+/**
+ * Liste des departements
+ */
+let xml = new XMLHttpRequest();
+
+xml.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+        console.log(this.response);
+    }
+}
+
+xml.open("GET", "http://127.0.0.1:8000/api/v1/departement/liste");
+xml.send();
+
+/**
+ * Creation departement
+ */
+
+
+ xml = new XMLHttpRequest();
+
+ xml.onreadystatechange = function(){
+     if(this.readyState == 4 && this.status == 200){
+         console.log(this.response);
+     }
+ }
+
+ let url     = "http://127.0.0.1:8000/api/v1/departement/add";
+ let params  = `?nom=comptabilite`;
+ let fullUrl = `${url}${params}`;
+
+ xml.open("POST", fullUrl);
+//  xml.send();
