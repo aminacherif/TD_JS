@@ -1,0 +1,133 @@
+<script>
+
+        // let dep1 = new Departement("MIAGE", "Gandhi", 100);
+        // dep1.save();
+
+        // let dep2 = new Departement("G. Info", "Gandhi", 80);
+        // dep2.save();
+
+        // dep2.remove();
+
+        // let spe1 = new Specialite("AnaDev", "G. Info", "Gandhi", 56);
+        // console.log(spe1);
+      
+      // document.addEventListener("DOMContentLoaded", function(){
+       
+      //     let enregistrerDepartement = document.querySelector("#enregistrerDepartement");
+      //     let listeDepartementDisplay = document.querySelector("#listeDepartementDisplay");
+      //     let listeDesDepartementsArray    = (localStorage.getItem("listeDepartements")) ? JSON.parse(localStorage.getItem("listeDepartements")) : [] ;
+
+      //     enregistrerDepartement.addEventListener("click", function(){
+      //       let nom = document.querySelector("#nom");
+      //       saveToDB(nom.value);
+      //     });
+
+      //     function saveToDB(value){
+      //         if(localStorage.getItem("listeDepartements")){
+      //           listeDesDepartementsArray = JSON.parse(localStorage.getItem("listeDepartements"));
+      //           listeDesDepartementsArray.push(value)
+      //           localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray)); 
+
+      //         }else{
+      //           listeDesDepartementsArray.push(value);
+      //           localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray)); 
+      //         }
+
+      //         displayContent();
+            
+      //     }
+
+      //     function displayContent(){
+      //       let content = JSON.parse(localStorage.getItem("listeDepartements"));
+      //       listeDepartementDisplay.innerHTML = "";
+           
+      //       if(content.length > 0){
+      //         content.forEach((element, index) => {
+      //           let tr = document.createElement("tr");
+      //           tr.innerHTML = `
+      //                           <td>${ (index + 1) }</td>
+      //                           <td>${element}</td> 
+      //                           <td>
+      //                             <button class="btn btn-primary">Modifier</button>
+      //                             <button class="btn btn-danger remove" value="${index}">Supprimer</button>
+      //                           </td>
+      //                         `;
+      //           listeDepartementDisplay.appendChild(tr);
+      //         });
+      //         remove();
+      //       }else{
+      //         let tr = document.createElement("tr");
+      //         tr.innerHTML = `<td colspan="3" class="text-center">La liste est vide</td>`;
+      //         listeDepartementDisplay.appendChild(tr);
+      //       }
+      //     }
+
+      //     function remove(){
+      //       let btnRemove = document.querySelectorAll(".remove");
+          
+
+      //       btnRemove.forEach((element)=>{
+      //         element.addEventListener("click", function(){
+
+      //           let btnIndex = this.getAttribute("value");
+      //           let index = listeDesDepartementsArray.findIndex((item, index)=> index == btnIndex);
+      //           listeDesDepartementsArray.splice(index, 1);
+      //           localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray));
+      //           displayContent();
+      //         });
+
+      //       });
+      //     }
+
+          
+
+      //     (function(){
+      //       displayContent();
+      //     })();
+      // });
+
+
+      class Departement{
+
+        constructor(departement, universite, nbreEtudiant){
+          this.departement  = departement;
+          this.universite   = universite;
+          this.nbreEtudiant = nbreEtudiant;
+        }
+
+        save(){
+          let data = [];
+
+          if(localStorage.getItem("data")){
+            data = JSON.parse(localStorage.getItem("data"));
+            console.log(data);
+            data.push(this);
+          }else{
+            data.push(this);
+          }
+
+          localStorage.setItem("data", JSON.stringify(data))
+          console.log("Objet saved");
+        }
+
+        remove(){
+  
+  let data  = JSON.parse(localStorage.getItem("data"));
+  let index = data.findIndex((item)=> item.departement === this.departement);
+
+  if(index >= 0){
+    data.splice(index, 1);
+    localStorage.setItem("data", JSON.stringify(data))
+  }
+}
+      }
+
+      class Specialite extends Departement{
+
+          constructor(specialite, departement, universite, nbreEtudiant){
+            super(departement, universite, nbreEtudiant);
+            this.specialite = specialite;
+          }
+
+      }
+    </script> 
