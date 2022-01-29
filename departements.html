@@ -46,7 +46,7 @@
                     <th>Nom</th>
                     <th>Actions</th>
                   </thead>
-                  <tbody id="listeDepartementDisplay">
+                  <tbody id="displayDepartement">
                     
                   </tbody>
               </table>
@@ -55,93 +55,21 @@
               <div class="form">
                 <div class="form-group">
                   <label for="#">Nom</label>
-                  <input type="text" class="form-control" name="nom" id="nom">
+                  <input type="text" class="form-control" autocomplete="off" name="nom" id="nom">
                 </div>
                 <hr>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary" id="enregistrerDepartement">
+                  <button type="submit" onclick="dom.save()" class="btn btn-primary" id="enregistrerDepartement">
                     Enregistrer
+                  </button>
+                  <button type="submit" style="display: none;" onclick="dom.postUpdateItem()" class="btn btn-primary" id="modifierDepartement">
+                    Modifier
                   </button>
                 </div>
               </div>
           </div>
         </div>
     </div> 
-    <script>
-      document.addEventListener("DOMContentLoaded", function(){
-       
-          let enregistrerDepartement = document.querySelector("#enregistrerDepartement");
-          let listeDepartementDisplay = document.querySelector("#listeDepartementDisplay");
-          let listeDesDepartementsArray    = (localStorage.getItem("listeDepartements")) ? JSON.parse(localStorage.getItem("listeDepartements")) : [] ;
-
-          enregistrerDepartement.addEventListener("click", function(){
-            let nom = document.querySelector("#nom");
-            saveToDB(nom.value);
-          });
-
-          function saveToDB(value){
-              if(localStorage.getItem("listeDepartements")){
-                listeDesDepartementsArray = JSON.parse(localStorage.getItem("listeDepartements"));
-                listeDesDepartementsArray.push(value)
-                localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray)); 
-
-              }else{
-                listeDesDepartementsArray.push(value);
-                localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray)); 
-              }
-
-              displayContent();
-            
-          }
-
-          function displayContent(){
-            let content = JSON.parse(localStorage.getItem("listeDepartements"));
-            listeDepartementDisplay.innerHTML = "";
-           
-            if(content.length > 0){
-              content.forEach((element, index) => {
-                let tr = document.createElement("tr");
-                tr.innerHTML = `
-                                <td>${ (index + 1) }</td>
-                                <td>${element}</td> 
-                                <td>
-                                  <button class="btn btn-primary">Modifier</button>
-                                  <button class="btn btn-danger remove" value="${index}">Supprimer</button>
-                                </td>
-                              `;
-                listeDepartementDisplay.appendChild(tr);
-              });
-              remove();
-            }else{
-              let tr = document.createElement("tr");
-              tr.innerHTML = `<td colspan="3" class="text-center">La liste est vide</td>`;
-              listeDepartementDisplay.appendChild(tr);
-            }
-          }
-
-          function remove(){
-            let btnRemove = document.querySelectorAll(".remove");
-          
-
-            btnRemove.forEach((element)=>{
-              element.addEventListener("click", function(){
-
-                let btnIndex = this.getAttribute("value");
-                let index = listeDesDepartementsArray.findIndex((item, index)=> index == btnIndex);
-                listeDesDepartementsArray.splice(index, 1);
-                localStorage.setItem("listeDepartements", JSON.stringify(listeDesDepartementsArray));
-                displayContent();
-              });
-
-            });
-          }
-
-          
-
-          (function(){
-            displayContent();
-          })();
-      });
-    </script>   
+    <script src="./script/departement.js"></script>  
 </body>
 </html>
